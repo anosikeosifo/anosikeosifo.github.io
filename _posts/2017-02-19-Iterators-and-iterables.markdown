@@ -42,7 +42,7 @@ The Iterability concept consists of two core concepts:
 These are objects that implement the iterable interface. these objects could be from built-in types (e.g Array, Set, Map) or user-defined.
 
 ### Data Consumers
-JavaScript constructs that comsume data using the Iteration Protocol (e.g for..loop iterating over Array elements). are described as data consumers. Other data consumers include
+JavaScript constructs that consume data using the Iteration Protocol (e.g for..loop iterating over Array elements). are described as data consumers. Other data consumers include:
 - Destructuring via Array Constructors.
 - Promise.all and Promise.race.
 - for...of
@@ -68,7 +68,7 @@ All major ES6 data structures have three(3) methods that return iterable objects
 This gives the iterator an opportuniy to auto-cleanup should an iteration end prematurely, after which it closes the iterator.
 
 ### throw()
-When used, this forwards a method call to a generator that is iterated over via `yield`. A [further study on iterators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterator) would epxatiate on this.
+When used, this forwards a method call to a generator that is iterated over via `yield`. A [further study on iterators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterator) would expatiate on this.
 
 
 ## Finishing Iterators
@@ -82,7 +82,7 @@ This is the more common approach to finishing iterators. Exhaustion is as a resu
 ### Closing
 This is usually achieved by calling **return()** within the iteration code. By doing this, we tell the iterator not to make another call to its next() method.
 
-However closure of an iterator can also be achieved by using any of the following constructs.
+Also, closure of an iterator can also be achieved by calling any of the following:
 - break
 - throw
 - continue.
