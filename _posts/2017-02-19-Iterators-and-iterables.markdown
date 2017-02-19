@@ -1,0 +1,85 @@
+---
+layout: post
+title:  "Introduction to Iterators and Iterables"
+date:   2017-02-19
+categories: main
+excerpt_separator: <!--more-->
+---
+
+---
+
+Iterators are ES6's new way of travering data.
+
+## Iterables.
+An Iterable is a data struvture that makes its elements publicly available by implementing a method whose key is `[Symbol.Iterator]`. This method is a factory for iterators.
+
+The following built-in types are iterable:
+<!--more-->
+- String
+- Array
+- Set
+- Map
+- DOM Data Structures.
+
+
+## Iterator.
+An iterator is a pointer for traversing the elements of a data structure. An Object is an Iterator when it implements the **next** method with the following properties:
+
+* **done** <br>
+  This is a boolean-typed property.
+  It has a value of *true* if the iterator is past the end of the sequence(data structure) being iterated.
+
+* **value** <br>
+  This holds the value returned by the current iteration of the sequence. Its can be ommitted when *done* is true.
+
+
+## Iterability.
+Javascript introduced the Iterable interface ( Given that JS doesn't have actual interfaces, this is more of a convention, validated by [Duck Typing](https://en.wikipedia.org/wiki/Duck_typing).
+
+Some JS language constructs (Data consumers) that make use of  the Iteration protocol include:
+- Destructuring via Array Constructors.
+- Promise.all and Promise.race.
+- for...of
+- Array.from()
+- Spread Operator
+- yield*
+
+## Implementing Iterables
+
+The most convenient (and probably best) means of implementing iterables is via [Generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
+
+All major ES6 data structures have three(3) methods that return iterable objects, as follows: 
+- entries()
+- keys()
+- values()
+
+* N.B Its important to note that plain javascript objects are not iterable by default.
+
+
+## **Optional Iterator Methods** (*return* and *throw*) 
+
+### return()
+This gives the iterator an opportuniy to auto-cleanup should an iteration end prematurely. After which it closes the iterator.
+
+### throw()
+When used, this method forwards a method call to a genrtator that is iterated over via yield. A [further study on iterators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#iterator) would epxatiate on this.
+
+
+## Finishing Iterators
+The iteration protocols distinguishes two ways of finishing an iterator:
+- Exhaustion
+- Closing
+
+### Exhaustion
+This is the more common approach to finishing iterators. Exhaustion is as a result of complete retrieval of the eleements of the data structure over which an iterator is traversing.
+
+### Closing
+This is usually achieved by calling **return()** within the iteration code. By doing this, we tell the iterator not to make another call to its next() method.
+
+However closure of an iterator can also be achieved by using any of the following constructs.
+- break
+- throw
+- continue.
+
+One major rule when closing an iterator with *return()* is:
+> An iterator's return method should only be called before it is exhausted.
