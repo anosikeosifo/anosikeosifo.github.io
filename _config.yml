@@ -1,6 +1,6 @@
 # Setup
 title:        UX Enthusiast
-tagline:      An attempt to document the learning experiences of a passionate front-end engineer from Nigeria.
+tagline:      An attempt to share the learning experiences of a passionate front-end engineer.
 baseurl:      ""
 paginate:     1
 
@@ -16,3 +16,4 @@ gems:
 #Others
 markdown: kramdown
 include: ['_pages']
+excerpt_separator: <!--more-->
