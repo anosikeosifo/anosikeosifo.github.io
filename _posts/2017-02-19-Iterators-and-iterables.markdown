@@ -38,10 +38,10 @@ Javascript introduced the Iterable interface ( Given that JS doesn't have actual
 
 The Iterability concept consists of two core concepts:
 
-### **Data Sources**
+### Data Sources
 These are objects that implement the iterable interface. these objects could be from built-in types (e.g Array, Set, Map) or user-defined.
 
-### **Data Consumers**
+### Data Consumers
 JavaScript constructs that comsume data using the Iteration Protocol (e.g for..loop iterating over Array elements). are described as data consumers. Other data consumers include
 - Destructuring via Array Constructors.
 - Promise.all and Promise.race.
