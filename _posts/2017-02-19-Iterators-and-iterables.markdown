@@ -8,7 +8,7 @@ excerpt_separator: <!--more-->
 
 ---
 
-Iterators are ES6's new way of travering data.
+Iterators are ES6's new way of traversing data.
 
 ## Iterable.
 An Iterable is a data struvture that makes its elements publicly available by implementing a method whose key is `[Symbol.Iterator]`.
