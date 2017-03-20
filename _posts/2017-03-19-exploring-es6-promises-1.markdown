@@ -309,5 +309,5 @@ I hope i've been able to shed some light on how to use ES6 promises. In the Part
 
 
 ### Additional Resources:
-* [Learning ES6 Promises by Ben Ilegbodu](http://www.benmvp.com/learning-es6-promises/
+* [Learning ES6 Promises by Ben Ilegbodu](http://www.benmvp.com/learning-es6-promises)
 * [Exploring JS - 25. Promises for asynchronous programming](http://exploringjs.com/es6/ch_promises.html)
