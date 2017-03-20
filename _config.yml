@@ -4,10 +4,10 @@ tagline:      An attempt to share the learning experiences of a passionate front
 baseurl:      ""
 paginate:     1
 
-# About/contact 
+# About/contact
 author:
   name:       Anosike Osifo
-  url:        http://uxenthusiast.com 
+  url:        http://www.twitter.com/ux_enthusiast
 
 # Gems
 gems:
@@ -17,3 +17,7 @@ gems:
 markdown: kramdown
 include: ['_pages']
 excerpt_separator: <!--more-->
+
+syntax-highlighting:
+  enabled : true
+  css: syntax.css
