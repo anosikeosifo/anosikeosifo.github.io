@@ -8,10 +8,10 @@ excerpt_separator: <!--more-->
 
 ---
 
-So I've been reading up on more ES6 features lately, and most recently Promises. Ben[TODO::Link here], someone I very much look up to advised that a good way to learn programming concepts is to either implement in a project, or blog about it - I challenged myself to doing both. Here are my thoughts on what i've learnt so far.
+So I've been reading up on more ES6 features lately, and most recently Promises. [Ben Ilegbodu](www.benmvp.com), someone I very much look up to advised that a good way to learn programming concepts is to either implement in a project, or blog about it - I challenged myself to doing both. Here are my thoughts on what I've learnt so far.
 
 ## ES6 Promises.
-Promises are a Javascript pattern for the delivery of the result of an asynchronous computation. They provide a better way for working with callbacks. (and are a likely future replacement of same).
+Promises are a Javascript pattern for the delivery of the result of an asynchronous computation. They provide a better way for working with callbacks. (and are a likely future replacement).
 
 Below is a basic example of a Promise implementation:
     <!--more-->
@@ -29,21 +29,25 @@ const asyncFunc = (someArgs) => {
 }
 {% endhighlight %}
 
-//We can then invoke the above like this:
+We can then invoke the above like this:
 {% highlight text %}
 asyncFunc()
   .then((result) => {
     //some code
+    return asyncFunc2();
   ))
+  .then(() => {
+    //some code
+  })
   .catch((error) => {
     //handle error here
   });
 {% endhighlight %}
 
-The then() call always returns a Promise - enabling us chain other method calls to it. The argument of this chained method would be the result from the computation in the previous then.
+The then() call always returns a Promise - enabling us chain other method calls to it. The argument of this chained method would be the result from the computation in the previous function.
 
 ## Chaining Promises.
-Given that P.then(onFulfilled, onRejected) (TODO::Make code-block) is a new promises Q, we can continue the promise-based flow by invoking then() on Q.
+Given that ***P.then(onFulfilled, onRejected)*** returns a new promises Q, we can continue the promise-based flow by invoking then() on Q.
 
 Q is resolved with the results of either onFulfilled or onRejected
 Q is rejected if either onFulfilled or onRejected throws an exception.
@@ -52,7 +56,7 @@ To achieve chaining, we can resolve Q by:
 - returning a normal value
 - return a thenable
 
-If we resolve Q with a normal value, i can pick tis value up via a subsequent then(), as in:
+If we resolve Q with a normal value, we can pick this value up via a subsequent then(), as in:
 
 {% highlight text %}
 p.then((onResolved, onRejected) => {
@@ -64,10 +68,7 @@ p.then((onResolved, onRejected) => {
 });
 {% endhighlight %}
 
-We can also resolve Q with a thenable - any object that has a then() function , that behaves like Promise.pototype.then()
-
-If we return a thenable from inside Q, we forward Q's resolution to the next chain (we'll call it 'R').
-so we'll have a chain that looks like this:
+We can also resolve Q with a thenable - any object that has a then() function, that behaves like ***Promise.pototype.then()***. If we return a thenable from inside Q, we forward Q's resolution to the next chain (we'll call it 'R'). We'll have a chain that looks like this:
 
 {% highlight text %}
 p.then((onResolved, onRejected) => {
@@ -80,12 +81,11 @@ p.then((onResolved, onRejected) => {
 });
 {% endhighlight %}
 
-(TODO:: Make italics)
-Note:(TODO:Make bold) Its important to note here that any error that occurs within the then() methods in a Promise chain are passed on to the error handler (the catch block) if there is one.
+**Note:** Its important to note here that any error that occurs within the then() methods in a Promise chain are passed on to the error handler (the catch block) if there is one.
 
 ## Executing Asynchronous functions in parallel.
 When asynchronous functions are chained via the then() construct (as sited in the previous example), they are executed sequentially (i.e one after the other).
-However there are use-cases when we need the async functions to run in parallel, i.e:
+However, there are use-cases when we need the async functions to run in parallel, i.e:
 
 {% highlight text %}
 asyncFunc1();
@@ -93,7 +93,7 @@ asyncFunc2();
 {% endhighlight %}
 
 ### Promise.all
-With Promise.all(TODO::MDN link), we get notified once all the specified async functions return have returned respective results.
+With [Promise.all()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/all), we get notified once all the specified async functions return have returned respective results.
 
 Promise.all takes an array of promises as argument and returns a single promise that is fulfilled with an array of the results of each specified promise, i.e:
 
@@ -110,11 +110,28 @@ Promise.all([
 });
 {% endhighlight %}
 
+### Promise.race
+[Promise.race()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/race) takes an iterable of promises, and returns a promise that resolves or rejects as soon as any of the promises in the iteralbe resolves or rejects.
+
+It'll look somewhat like this:
+{% highlight text %}
+Promise.race([
+  asyncFunc1(),
+  asyncFunc2(),
+])
+.then((fulfilmentResult)) => {
+  //do something with
+}
+.catch((error) => {
+  ...
+});
+{% endhighlight %}
+
 ## Promise States
-A Promise can exist in on of the following three mutually exclusive states.
+A Promise can exist in one of the following three mutually exclusive states.
 
 #### 1.Pending
-This is the initial state of the promise, ie when its results have not yet been computed.
+This is the initial state of the promise, i.e when its results have not yet been computed.
 
 #### 2. Fulfilled
 In this state, the promise has been completed computation with a result.
@@ -129,10 +146,10 @@ These are the callbacks that are registered with the then() method(s) of a promi
 
 ## Advantages of Promises over Callbacks
 #### No Inversion of Control
-With Promises, there is no inversion of control. i.e Promise-based functions return results like synchronous code; h†ey don't directly continue and control execution, thus giving the caller more control.
+With Promises, there is no inversion of control. i.e Promise-based functions return results like synchronous code; they don't directly continue and control execution, thus giving the caller more control.
 
 #### Escaping the callback-hell
-With Promises, chaining of async code is possible, as conpared to nesting when using callbacks. When the return value of the async code is a thenable*(TODO::Bolden), the then() function can then be used to chain more async code, for example:
+With Promises, chaining of async code is possible, as compared to nesting when using callbacks. When the return value of the async code is a thenable*(TODO::Bolden), the then() function can then be used to chain more async code, for example:
 
 {% highlight text %}
 asyncFunc()
