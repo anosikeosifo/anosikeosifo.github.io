@@ -18,6 +18,9 @@ markdown: kramdown
 include: ['_pages']
 excerpt_separator: <!--more-->
 
+#this enables user-engagement using disqus
+comments: true
+
 syntax-highlighting:
   enabled : true
   css: syntax.css
