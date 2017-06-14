@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title:  "Exploring ES6 Promises (Part 1)"
 date:   2017-03-19
 categories: es6

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title:  "ES6 Iterators and Iterables: Salient Points"
 date:   2017-02-19
 categories: es6
@@ -54,7 +55,7 @@ JavaScript constructs that consume data using the Iteration Protocol (e.g for..l
 
 The most convenient (and probably best) means of implementing iterables is via [Generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
-All major ES6 data structures have three(3) methods that return iterable objects, as follows: 
+All major ES6 data structures have three(3) methods that return iterable objects, as follows:
 - entries()
 - keys()
 - values()
@@ -62,7 +63,7 @@ All major ES6 data structures have three(3) methods that return iterable objects
 * **N.B** *Its important to note that plain Javascript objects are not iterable.*
 
 
-## **Optional Iterator Methods** (*return* and *throw*) 
+## **Optional Iterator Methods** (*return* and *throw*)
 
 ### return()
 This gives the iterator an opportuniy to auto-cleanup should an iteration end prematurely, after which it closes the iterator.
