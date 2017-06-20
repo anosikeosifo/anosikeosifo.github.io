@@ -63,7 +63,7 @@ We'll start by specifying the data-types of the props we're expecting.
 {% highlight text %}
 
 Icon.propTypes = {
-  paths: PropTypes.array,
+  paths: PropTypes.array.isRequired,
   color: PropTypes.string,
   size: PropTypes.number,
   viewBox: PropTypes.number,
@@ -96,7 +96,7 @@ const Icon = (props) => {
 };
 
 Icon.propTypes = {
-  paths: PropTypes.array,
+  paths: PropTypes.array.isRequired,
   color: PropTypes.string,
   size: PropTypes.number,
   viewBox: PropTypes.number,
@@ -266,7 +266,7 @@ const Icon = (props) => {
 };
 
 Icon.propTypes = {
-  icon: PropTypes.array,
+  icon: PropTypes.array.isRequired,
   color: PropTypes.string,
   size: PropTypes.number,
   viewBox: PropTypes.number,
