@@ -8,5 +8,10 @@
     padding: 2rem;
     margin: 0 auto;
     font-size: 1.1rem;
-  }  
+  }
+}
+
+#home ul.posts {
+  list-style-type: none;
+  margin-left: 0;
 }
