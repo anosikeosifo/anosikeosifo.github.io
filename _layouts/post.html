@@ -2,7 +2,7 @@
 layout: default
 ---
 <h1>{{ page.title }}</h1>
-<small class="meta">{{ page.date | date_to_string }}</small>
+<small class="breadcrumb">{{ page.date | date_to_string }} | <a class='navigate__home' href="{{ site.url }}">Go Back</a></small>
 
 
 {{ content }}
