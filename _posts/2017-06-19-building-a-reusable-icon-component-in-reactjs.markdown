@@ -4,6 +4,7 @@ title:  "Building A Reusable SVG-Based Icon Component In React"
 date:   2017-06-19
 categories: reactjs
 excerpt_separator: <!--more-->
+comments: true
 ---
 
 ---
