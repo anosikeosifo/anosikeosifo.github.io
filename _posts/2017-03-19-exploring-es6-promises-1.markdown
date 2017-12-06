@@ -45,10 +45,9 @@ asyncFunc()
   });
 {% endhighlight %}
 
-The then() call always returns a Promise - enabling us chain other method calls to it. The argument of this chained method would be the result from the computation in the previous function.
 
 ## Chaining Promises.
-Given that ***P.then(onFulfilled, onRejected)*** returns a new promises Q, we can continue the promise-based flow by invoking then() on Q.
+Given that ***P.then((optionalParam) => {...})*** returns a new promises Q, we can continue the promise-based flow by invoking then() on Q.
 
 Q is resolved with the results of either onFulfilled or onRejected
 Q is rejected if either onFulfilled or onRejected throws an exception.
@@ -60,7 +59,7 @@ To achieve chaining, we can resolve Q by:
 If we resolve Q with a normal value, we can pick this value up via a subsequent then(), as in:
 
 {% highlight text %}
-p.then((onResolved, onRejected) => {
+p.then((returnedData) => {
   //Q here
   return 'testvalue';
 })
@@ -72,7 +71,7 @@ p.then((onResolved, onRejected) => {
 We can also resolve Q with a thenable - any object that has a then() function, that behaves like ***Promise.pototype.then()***. If we return a thenable from inside Q, we forward Q's resolution to the next chain (we'll call it 'R'). We'll have a chain that looks like this:
 
 {% highlight text %}
-p.then((onResolved, onRejected) => {
+p.then((returnedData) => {
   //Q here
   return thenableX()
 })
