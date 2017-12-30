@@ -11,19 +11,19 @@ comments: true
 
 This is an (a great one, IMO) approach to architecting large React Native applications.
 
-Learning and building with React Native(RN) has been an interesting one to say the least, with the fast pace of innovation and changes in the ecosystem (don't forget, we're not yet at version 1.0 yet!)
+Learning and building with React Native(RN) has been an interesting one to say the least, with the fast pace of innovation and changes in the ecosystem (don't forget, we're not at version 1.0 yet!).
 
-I started out building breakable toys and soon grew into the need to build a large (enterprise scale) application - and then I got stuck. Where to place what? How to link them all together, and all those issues you'd usually face when architecting an application from ground-up.
+I started out building breakable toys and soon grew into the need to build a large (enterprise scale) application - and then I got stuck. Where to place what? How to bring them all together, and all those issues you'd usually face when architecting a solution from the ground up.
 
-While this obviously is not a code-intensive article, we'll be working with a few tools that had direct influence on the choice of architecture:
+Before we get into the details, I'll highlight the tools that influenced this choice of architecture:
 
-- [react-navigation](https://www.npmjs.com/package/react-navigation)
-- [redux](https://www.npmjs.com/package/redux)
-- [redux-thunk](https://www.npmjs.com/package/redux-thunk)
-- [jest](http://facebook.github.io/jest/)
-- [reselect](https://www.npmjs.com/package/reselect)
-- [axios](https://www.npmjs.com/package/axios)
-- [fastlane](https://fastlane.tools/)
+- [react-navigation](https://www.npmjs.com/package/react-navigation) - Application navigation
+- [redux](https://www.npmjs.com/package/redux) - Aplication state management
+- [redux-thunk](https://www.npmjs.com/package/redux-thunk) - Enabling asynchronous dispatching of actions
+- [jest](http://facebook.github.io/jest/) - Javascript testing
+- [reselect](https://www.npmjs.com/package/reselect) - Selector library for Redux
+- [axios](https://www.npmjs.com/package/axios) - Http Client
+- [fastlane](https://fastlane.tools/) - Automation tool
 
 ### How I'd learnt to structure application modules.
 
@@ -39,7 +39,7 @@ However, as the scope of the application began to grow I found myself including 
 
 ![type-based architecture]({{site.baseurl}}/assets/feature_based_arch.png){:class="img-responsive" width="500"}
 
-Because the other files & folders (some truncated) are usually part of a basic `react-native init` installation, our focus would be on the *`src`* folder:
+Because the other files & folders (some truncated) are usually part of a default `react-native init` installation, our focus would be on the *`src`* folder:
 
 ### **fastlane/**
 
@@ -51,17 +51,19 @@ This folder, as you must have noticed, exists on same level as *`src`*. It conta
 As seen in the screenshot, let's discuss the rationale behind this architecture
 
 
-#### **api/**
+### **api/**
 ![type-based architecture]({{site.baseurl}}/assets/api_dir.png){:class="img-responsive" width="500"}
 
 This folder contains logic related to external API communications, it includes:
 
 - `constants.js` - where all related static values are stored.
 - `helper.js` - for storing reusable logic.
-- individual feature files -  Each feature file would contain api ommunication logic for that single feature.
+- individual feature files -  Each feature file would contain api communication logic for a particular feature.
 
-#### assets/
+
+#### **assets/**
 Just as the name implies, this house static files (e.g images) used in the application.
+
 
 #### **components/**
 
@@ -70,13 +72,15 @@ Just as the name implies, this house static files (e.g images) used in the appli
 Shared components that are used across features are placed in this directory. An example of such (as shown above) is the `layout` component, which is used to wrap the application components and influence its layout.
 
 
+
+
 #### **features/**
 ![type-based architecture]({{site.baseurl}}/assets/features_dir.png){:class="img-responsive" width="500"}
 
 A major part of this architecture, the `feature` folder consists of individual modules for each of the application's feature.
 
-We'll be examining the `explore` module.
-It is made up of:
+Let's examining the **`/explore/`** module in more details, it consists of:
+
 ##### */actions*
 Like in most react-base application. this folder would contain the Action Creators for this feature.
 
@@ -116,10 +120,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Explore);
 {% endhighlight %}
 
 ##### */reducers*
-Each feature has a reducer that modifies its own slice of the application state. All reducers are later merged using redux's `combineReucers` function.
+Each feature has a reducer that modifies its own slice of the application state. All reducers are later merged using redux's `combineReducers` function.
 
 ##### */selectors*
-This might come across as a bit strange for some of us, however this aspect of our architcture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute dreived data from our application's state.
+This might come across as a bit strange for some of us, however this aspect of our architecture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute dreived data from our application's state.
 
 In this architecture, we grouped the application selectors on a feature-basis so as to make interaction between various aspects of the app easy to reason about. More details on how reselect works can be found [here](https://www.npmjs.com/package/reselect).
 
@@ -133,12 +137,12 @@ This file contains static values used within the feature. An example of what we 
 
 This is another component of our architecture slightly influenced by a [react-package](https://www.npmjs.com/package/react-navigation)
 
-Due to the scale of this aplication, we wouldn't be relying on the out-of-the-box navigatoin with `this.props.navigation`, rather we would be be connecting the app's navigation to the overall application state. This means that our redux-backed store would be aware of the navigation state.
+Due to the scale of this application, we wouldn't be relying on the out-of-the-box navigation with `this.props.navigation`, rather we would be be connecting the app's navigation to the overall application state. This means that our redux-backed store would be aware of the navigation state.
 
 Lets explore the roles of the various directories in this module.
 
 ##### */actions*
-This contains logic for a bunch of navigation-specific action-creators, thus the `actions/index.js` content would mostly look like:
+This contains logic for a bunch of navigation-specific action-creators, thus the **`actions/index.js`** content would mostly look like:
 
 {% highlight text %}
 
@@ -156,7 +160,7 @@ export const navigateToSplash = () =>
   });
 {% endhighlight %}
 
-As you might have observed, we're importing the `NavigationActions` object from the [react-navigation](https://www.npmjs.com/package/react-navigation) package to implement native navigation, and they provide [a really great documentation](https://reactnavigation.org/docs/) too!
+As you might have observed, we're importing the **`NavigationActions`** object from the [react-navigation](https://www.npmjs.com/package/react-navigation) package to implement native navigation, and they provide [a really great documentation](https://reactnavigation.org/docs/) too!
 
 ##### */containers*
 This is the where we connect our navigation logic to the application state - using mapStateToProps and mapDispatchToProps.
@@ -202,7 +206,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(
 
 
 ##### */navigators*
-The entry point of this module is the `index.js` file, and here's what it looks like:
+The entry point of this module is the **`index.js`** file, and here's what it looks like:
 
 {% highlight text %}
 ...
@@ -230,11 +234,11 @@ export default appNavigator;
 
 {% endhighlight %}
 
-This entry point navigator files serves as the root navigator for the whole application, and is what is imported in the `/containers;/index` file in the previous section.
+This entry point navigator files serves as the root navigator for the whole application, and is what is imported in the **`/containers/index.js`** file in the previous section.
 
-It aggregates all of the navigators for various scenes in the application and links them up to their entry routes. Besides aggregation, it also routes to individual scenes when appropriate (as seen with the *Splash* route in the snippet above).
+It aggregates all of the navigators for various scenes in the application and links them up to their entry routes. Besides aggregation, it also routes to individual scenes when appropriate (as seen with the ***Splash*** route in the snippet above).
 
-At the top of this code, we see that other scene-based navigation are imported. A scene navigator could like this (an excerpt from the imported *MainNavigator*).
+At the top of this code, we see that other scene-based navigation are imported. A scene navigator could like this (an excerpt from the imported ***MainNavigator***).
 
 {% highlight text %}
 export default TabNavigator(
@@ -295,9 +299,9 @@ export default navigationReducer;
 
 
 #### **reducers/**
-This is the application-level reducer. Its function is to merge the various feature-level reducers using redux's `combineReucers` function.
+This is the application-level reducer. Its function is to merge the various feature-level reducers using redux's **`combineReucers`** function.
 
-Here's what `reducers/index.js` looks like:
+Here's what **`reducers/index.js`** looks like:
 
 {% highlight text %}
 
@@ -327,7 +331,7 @@ This module holds our application-level styles. which are then referenced in ind
 
 #### **index.js**
 
-This is the application entry file, it wraps the application with the Layout we earlier discussed, and connects the app to the store using the redux's `Provider` higher order component.
+This is the application entry file, it wraps the application with the Layout we earlier discussed, and connects the app to the store using the redux's **`Provider`** higher order component.
 
 It looks like this:
 
@@ -354,7 +358,10 @@ this contains the store-creation logic.
 
 
 Whoa, This must have been quite a long read!
-I hope you find it insightful and helpful. I would be glad if you could share your thoughts and opinions on this as well as on how you go about implementing large-scale RN apps.
+
+While this isn't all-encompassing*, I hope you find it insightful and helpful. I would be glad if you could share your thoughts and opinions on this as well as on how you go about implementing large-scale RN apps.
+
+\*In order to focus on the core of the article's purpose, i avoided going into details on the various **`__tests_`** modules.
 
 
 
