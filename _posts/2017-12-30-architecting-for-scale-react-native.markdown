@@ -9,7 +9,7 @@ comments: true
 
 ---
 
-This is an (a great one, IMO) approach to architecting large React Native applications.
+This is an approach to architecting large React Native applications - a great one i suppose.
 
 Learning and building with React Native(RN) has been an interesting one to say the least, with the fast pace of innovation and changes in the ecosystem (don't forget, we're not at version 1.0 yet!).
 
@@ -62,14 +62,14 @@ This folder contains logic related to external API communications, it includes:
 
 
 #### **assets/**
-Just as the name implies, this house static files (e.g images) used in the application.
+Just as the name implies, this houses static files (e.g images) used in the application.
 
 
 #### **components/**
 
 ![type-based architecture]({{site.baseurl}}/assets/components_dir.png){:class="img-responsive" width="500"}
 
-Shared components that are used across features are placed in this directory. An example of such (as shown above) is the `layout` component, which is used to wrap the application components and influence its layout.
+Shared components that are used across features are placed in this directory. An example of such (as shown above) is the `layout` component, which is used to wrap the application components and influence the app's overall layout.
 
 
 
@@ -77,15 +77,15 @@ Shared components that are used across features are placed in this directory. An
 #### **features/**
 ![type-based architecture]({{site.baseurl}}/assets/features_dir.png){:class="img-responsive" width="500"}
 
-A major part of this architecture, the `feature` folder consists of individual modules for each of the application's feature.
+A major part of this architecture, the `feature` folder, consists of individual modules for each of the application's feature.
 
 Let's examining the **`/explore/`** module in more details, it consists of:
 
 ##### */actions*
-Like in most react-base application. this folder would contain the Action Creators for this feature.
+Like in most react/react-native application. this folder would contain the Action Creators for this feature.
 
 ##### */components*
-Here we place component and style logic for the various components of the explore feature.
+Here we place component and style logic for the various aspects of the explore feature.
 
 ##### */containers*
 Redux-related logic is placed in the containers folder. For this use-case there's only a single source of truth for direct interaction between the redux logic and the `explore feature`.
@@ -123,7 +123,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Explore);
 Each feature has a reducer that modifies its own slice of the application state. All reducers are later merged using redux's `combineReducers` function.
 
 ##### */selectors*
-This might come across as a bit strange for some of us, however this aspect of our architecture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute dreived data from our application's state.
+This might come across as a bit strange to some of us, however this aspect of our architecture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute dreived data from our application's state.
 
 In this architecture, we grouped the application selectors on a feature-basis so as to make interaction between various aspects of the app easy to reason about. More details on how reselect works can be found [here](https://www.npmjs.com/package/reselect).
 
@@ -160,10 +160,10 @@ export const navigateToSplash = () =>
   });
 {% endhighlight %}
 
-As you might have observed, we're importing the **`NavigationActions`** object from the [react-navigation](https://www.npmjs.com/package/react-navigation) package to implement native navigation, and they provide [a really great documentation](https://reactnavigation.org/docs/) too!
+As you might have observed, we're importing the **`NavigationActions`** object from the [react-navigation](https://www.npmjs.com/package/react-navigation) package to implement native navigation; they provide [a really great documentation](https://reactnavigation.org/docs/) too!
 
 ##### */containers*
-This is the where we connect our navigation logic to the application state - using mapStateToProps and mapDispatchToProps.
+This is the where we connect our navigation logic to the application state - using **`mapStateToProps`** and **`mapDispatchToProps`**.
 The logic of this container component would look somewhat like this:
 
 {% highlight text %}
