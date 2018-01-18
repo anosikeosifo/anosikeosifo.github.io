@@ -13,12 +13,12 @@ This is an approach to architecting large React Native applications - a great on
 
 Learning and building with React Native(RN) has been an interesting one to say the least, with the fast pace of innovation and changes in the ecosystem (don't forget, we're not at version 1.0 yet!).
 
-I started out building breakable toys and soon grew into the need to build a large (enterprise scale) application - and then I got stuck. Where to place what? How to bring them all together, and all those issues you'd usually face when architecting a solution from the ground up.
+I started out building breakable toys and soon grew into having to build a large (enterprise scale) application - and then I got stuck. Where to place what? How to connect the various system components? and all those questions related to architecting a solution from the ground up.
 
-Before we get into the details, I'll highlight the tools that influenced this choice of architecture:
+Before we get into implementation details, I'll highlight the tools that influenced this choice of architecture:
 
 - [react-navigation](https://www.npmjs.com/package/react-navigation) - Application navigation
-- [redux](https://www.npmjs.com/package/redux) - Aplication state management
+- [redux](https://www.npmjs.com/package/redux) - Application state management
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk) - Enabling asynchronous dispatching of actions
 - [jest](http://facebook.github.io/jest/) - Javascript testing
 - [reselect](https://www.npmjs.com/package/reselect) - Selector library for Redux
@@ -30,8 +30,9 @@ Before we get into the details, I'll highlight the tools that influenced this ch
 ![type-based architecture]({{site.baseurl}}/assets/type_based_arch.png){:class="img-responsive"  width="500"}
 <!--more-->
 
-The above structure (type-based) had been my go-to for previous light-weight apps, as it was easy to reason about and app components seemed very visible, so i started out with it.
-However, as the scope of the application began to grow I found myself including more files to the predefined modules. In no time, each module became crowded with numerous unrelated files; navigation between modules, while keeping mental note of implementation flow became a pain, and clearly not feasible.
+The above structure (type-based) had been my go-to for previous light-weight apps, as it is easy to reason about, also app components seemed very visible, so I started out with it.
+As the scope of the application began to grow, I found myself including more files to the predefined folders and having to make trips across folders(modules) while working on a single feature or fix. In no time, each module became bloated with files. Also, folder navigation, while keeping mental note of implementation flow became a pain.
+This approach clearly became infeasible.
 
 
 
@@ -39,16 +40,16 @@ However, as the scope of the application began to grow I found myself including 
 
 ![type-based architecture]({{site.baseurl}}/assets/feature_based_arch.png){:class="img-responsive" width="500"}
 
-Because the other files & folders (some truncated) are usually part of a default `react-native init` installation, our focus would be on the *`src`* folder:
+Because the other files & folders above (some truncated) are usually part of a default `react-native init` installation, our focus would be on the *`src`* folder:
 
 ### **fastlane/**
 
-This folder, as you must have noticed, exists on same level as *`src`*. It contains configuration for deployment as well as other app release related tasks. See the [fastlane website](https://fastlane.tools/) for more details.
+This folder, as you might have observed, exists on same level as *`src`*. It contains configuration logic for deployment as well as other release-related tasks. See the [fastlane website](https://fastlane.tools/) for more details.
 
 
 ### **src/**
 
-As seen in the screenshot, let's discuss the rationale behind this architecture
+As seen in the referenced screenshot above, let's discuss the rationale behind this structure
 
 
 ### **api/**
@@ -56,9 +57,9 @@ As seen in the screenshot, let's discuss the rationale behind this architecture
 
 This folder contains logic related to external API communications, it includes:
 
-- `constants.js` - where all related static values are stored.
+- `constants.js` - where all required static values are stored.
 - `helper.js` - for storing reusable logic.
-- individual feature files -  Each feature file would contain api communication logic for a particular feature.
+- individual feature files -  Each feature file contains api communication logic for a particular feature.
 
 
 #### **assets/**
@@ -69,7 +70,7 @@ Just as the name implies, this houses static files (e.g images) used in the appl
 
 ![type-based architecture]({{site.baseurl}}/assets/components_dir.png){:class="img-responsive" width="500"}
 
-Shared components that are used across features are placed in this directory. An example of such (as shown above) is the `layout` component, which is used to wrap the application components and influence the app's overall layout.
+Shared components used across features are placed in this directory. An example of such (as shown above) is the `layout` component, which is used to wrap the application components and determine its overall layout.
 
 
 
@@ -77,18 +78,18 @@ Shared components that are used across features are placed in this directory. An
 #### **features/**
 ![type-based architecture]({{site.baseurl}}/assets/features_dir.png){:class="img-responsive" width="500"}
 
-A major part of this architecture, the `feature` folder, consists of individual modules for each of the application's feature.
+A major part of this architecture: the `feature` folder, consists of a module for each of the application's feature.
 
-Let's examining the **`/explore/`** module in more details, it consists of:
+Let's examining the **`/explore/`** module in more details:
 
 ##### */actions*
-Like in most react/react-native application. this folder would contain the Action Creators for this feature.
+Like in most react/react-native application. this folder contains the Action Creators for this feature.
 
 ##### */components*
-Here we place component and style logic for the various aspects of the explore feature.
+Here we place the explore feature's components and their related styles
 
 ##### */containers*
-Redux-related logic is placed in the containers folder. For this use-case there's only a single source of truth for direct interaction between the redux logic and the `explore feature`.
+The feature's redux-related logic is placed here. For this use-case there's a single container(representing a screen) being exported, so we placed it in the `index` file.
 
 Here's what the `/containers/index.js` looks like:
 
@@ -120,10 +121,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Explore);
 {% endhighlight %}
 
 ##### */reducers*
-Each feature has a reducer that modifies its own slice of the application state. All reducers are later merged using redux's `combineReducers` function.
+Each feature has a reducer that mutates its own slice of the application state. All reducers are later combined using redux's `combineReducers` function.
 
 ##### */selectors*
-This might come across as a bit strange to some of us, however this aspect of our architecture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute dreived data from our application's state.
+This might come across as a bit strange to some of us, however this segment of our architecture is influenced by the [reselect package](https://www.npmjs.com/package/reselect), which enables us to efficiently compute derived data from our application's state.
 
 In this architecture, we grouped the application selectors on a feature-basis so as to make interaction between various aspects of the app easy to reason about. More details on how reselect works can be found [here](https://www.npmjs.com/package/reselect).
 
@@ -363,6 +364,8 @@ While this isn't all-encompassing*, I hope you find it insightful and helpful. I
 
 \*In order to focus on the core of the article's purpose, i avoided going into details on the various **`__tests_`** modules.
 
+### **UPDATE**
+Here's a [sample project](https://github.com/anosikeosifo/rn-architecture) that demonstrates the concepts discussed in this article, thanks to feedback from *Awa (he's on the comments list below)*
 
 
 
